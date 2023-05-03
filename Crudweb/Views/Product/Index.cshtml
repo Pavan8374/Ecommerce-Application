@@ -1,0 +1,89 @@
+﻿@model X.PagedList.IPagedList<CRUD.Domain.Employee.Product>
+@using X.PagedList.Mvc.Core
+@using CRUD.Domain.Employee
+@{
+    ViewData["Title"] = "Index";
+}
+<partial name="_Notification" />
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-info">Products List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Product" asp-action="Add" class="btn btn-outline-info">
+                <i class="bi bi-person-fill-add"></i> &nbsp; Add New Product
+            </a>
+        </div>
+    </div>
+</div>
+<table id="tableid" class="table table-info table-bordered table-striped table-hover" style="width:100%">
+    <thead>
+        <tr>
+            <th>Expand</th>
+            <th>Product Image</th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["FirstNameSortParm"]">Product Name</a>
+            </th>
+            <th>
+              Brand  
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Action
+            </th>            
+        </tr>       
+    </thead>
+    <tbody>
+        @foreach (var obj in Model)
+        {       
+            <tr>
+                <td><a id="btnExpand" class='btn btn-expand'><i class="fa-solid fa-square-plus"></i></a></td>
+                <td><img src="@obj.ImageURL" id="image-preview" class="img-thumbnail" /></td>
+                <td>
+                    @obj.ProductName 
+                </td>
+                <td>
+                    @obj.Brand
+                </td>
+                <td>
+                    @obj.Category
+                </td>
+                <td>
+                    @obj.Price
+                </td>                
+                <td>
+                    <div role="group">
+                        <a asp-controller="Product" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-outline-success mx-2"><i class="bi bi-pencil-square"></i></a>
+                    </div>
+                    <div role="group">
+                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-outline-danger mx-2"><i class="bi bi-trash"></i></a>
+                    </div>
+                </td>                
+            </tr>
+            <tr class="hidden">
+                <th>Description:</th>
+                <td>@Html.Raw(obj.Description)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<nav> 
+    <div id="Pagination" class="pagination pagination-lg justify-content-center">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+</nav>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".btn-expand").click(function () {
+            $(this).closest("tr").next(".hidden").toggle();
+        });
+    });
+</script>
+

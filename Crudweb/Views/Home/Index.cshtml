@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Product>
+@using CRUD.Domain.Employee
+@{
+    ViewData["Title"] = "Index";
+}
+<partial name="_Notification" />
+<div class="row pb-3">
+    @foreach(var product in Model){
+        <div class="col-lg-3 col-sm-6">
+            <div class="row p-2">
+                <div class="col-12 p-6">
+                    <div class="card border-0 p-3 shadow border-top border-5 rounded" style="width:250px; height:400px">
+                        <img src="@product.ImageURL" class="card-img-top rounded" style="width:100px; height:150px" />
+                        <div class="card-body pb-0">
+                            <div class="pl-1">
+                                <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@product.ProductName</p>
+                                <p class="card-title  text-warning text-center">by <b>@product.Brand</b></p>
+                            </div>
+                            <div class="pl-1">
+                                <p class= "text-dark opacity-75 text-center"> Price: <span class="">@product.Price.ToString("c")</span></p>
+                            </div>
+                            <div class="pl-1">
+                                <p class="text-dark opacity-75 text-center"> Description:@Html.Raw(product.Description)</p>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="pl-1">
+                        @*<button type="submit"
+                            class="btn btn-outline-primary bg-gradient  w-100 py-2 text-uppercase fw-semibold">
+                            <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+                        </button>*@
+                        <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-outline-info bg-gradient border-0 form-control">
+                            Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
